@@ -14,7 +14,7 @@ england_club_url = "https://find.englandfootball.com/"
 
 driver = webdriver.Chrome()
 driver.maximize_window()
-delay = 100
+delay = 10000
 
 def button_click_to_searching(age, city):
     # Open the website
@@ -102,11 +102,12 @@ def button_click_to_searching(age, city):
         EC.element_to_be_clickable((By.ID, "onboarding_cta_next_question"))
     )
     next_button_element.click()
-    time.sleep(1)
+    time.sleep(10)
 
 
 logging.basicConfig(filename='crawling_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 city_df = pd.read_csv("england_city.csv")
+
 contact_name_result = []
 team_number_result = []
 email_result = []
@@ -116,9 +117,14 @@ club_address_result = []
 accredited_to_result = []
 football_type_result = []
 website_result = []
+
+club_length = "0"
+
+action = ActionChains(driver)
+
 for city in city_df.index:
     try:
-        current_city = city + 25
+        current_city = city + 40
         for current_age in range(5, 26, 5):
             print("Current age:", current_age)
             print("Current City:", city_df["name"][current_city])
@@ -128,11 +134,7 @@ for city in city_df.index:
             logging.info("Button Clicked to search done.")
             logging.info(f"Current age: {current_age}")
             logging.info(f"Current City: {city_df["name"][current_city]}")
-            time.sleep(0.5)
-            # if current_city > city_df.index:
-            #     print("All club information is crawled successfully")
-            #     logging.info("All club information is crawled successfully.")
-            #     break
+            
             if len(driver.find_elements(By.ID, "football_recommendations_result_wrapper")) > 0:
                 card_divs = WebDriverWait(driver, delay).until(
                             EC.visibility_of_element_located((By.ID, "football_recommendations_result_wrapper"))
@@ -142,8 +144,8 @@ for city in city_df.index:
                 length_of_cards = len(cards)
                 
                 for card in range(length_of_cards):
-                    print(f"OK card {card}")
-                    logging.info(f"OK card {card}")
+                    print(f"Finish card {card}")
+                    logging.info(f"Finish card {card}")
                     try:
                         if len(driver.find_elements(By.CLASS_NAME, "css-1gkwtxd")) > 0:
                             if len(driver.find_elements(By.ID, f"recommended_football_type_cta_view_maps_of_clubs-{card + 1}")) > 0:
@@ -157,19 +159,14 @@ for city in city_df.index:
                                     try:
                                         load_more_element = "map_cta_load_more_recommendations"
                                         
-
                                         football_club_load_more = WebDriverWait(driver, 10).until(
                                             EC.visibility_of_element_located((By.ID, load_more_element))
                                         )
-                                        
-                                        time.sleep(0.5)
-                                        
+                                                                                
                                         football_club_load_more.click()
 
                                     except Exception:
                                         break
-                                
-                                club_length = "0"
 
                                 # Try to find the element
                                 if len(driver.find_elements(By.CLASS_NAME, "css-199032i")) > 0:
@@ -200,23 +197,20 @@ for city in city_df.index:
                                                                     
                                                     club_general_info_button.click()
                                                     
-                                                    
-                                                    action = ActionChains(driver)
-                                                    
-                                                    club_info_button = WebDriverWait(driver, 10).until(
+                                                    club_info_button = WebDriverWait(driver, delay).until(
                                                         EC.element_to_be_clickable((By.ID, more_info_id))
                                                     )
+                                                    action.key_down(Keys.CONTROL).click(club_info_button).key_up(Keys.CONTROL).perform()
                                                     
-                                                    action.key_down(Keys.CONTROL).click(club_info_button).key_up(Keys.CONTROL).perform()  
-                                                    
-                                                    if len(driver.window_handles) > 1:
-                                                        # time.sleep(0.5)
+                                                    if len(driver.window_handles) == 2:
                                                         driver.switch_to.window(driver.window_handles[1])
                                                     else:
+                                                        time.sleep(2)
                                                         action.key_down(Keys.CONTROL).click(club_info_button).key_up(Keys.CONTROL).perform()
-                                                        # time.sleep(0.5)                    
                                                         driver.switch_to.window(driver.window_handles[1])
                                                     
+                                                    time.sleep(0.5)
+
                                                     club_name = ""
                                                     
                                                     if len(driver.find_elements(By.ID, "club_name_heading")) > 0:
@@ -316,6 +310,7 @@ for city in city_df.index:
                                                     website_result.append(website)
                                                     
                                                     driver.close()
+                                                    time.sleep(1)
                                                     driver.switch_to.window(driver.window_handles[0])
                                                 
                                                     data = {
@@ -330,37 +325,36 @@ for city in city_df.index:
                                                         "Website": website_result,
                                                     }
 
-                                                    # Convert the dictionary to a DataFrame
-                                                    
-                                                    # # Check if the CSV file exists
-                                                    # if os.path.exists("new_club_data_test_pro.csv"):
-                                                    #     existing_df = pd.read_csv("new_club_data_test_pro.csv")
-                                                    #     combined_df = pd.concat([existing_df, new_df]).drop_duplicates(subset=["Club Name"], inplace=True).reset_index(drop=True)
-                                                    #     combined_df = combined_df.dropna(how="all")
-                                                    #     combined_df.to_csv("new_club_data_test_pro_v2.csv", mode="a", header=not os.path.exists("new_club_data_test_pro_v2.csv"), index=False)
-                                                    # else:
-                                                    #     logging.info("Export new csv file")
-                                                    #     new_df.to_csv("new_club_data_test_pro.csv", index=False, header=True)
-                                            except:
+                                            except Exception as e4:
+                                                print("Error 4: " + str(e4))
+                                                logging.error("Error 4: " + str(e4))
                                                 break
                                         print("OK club Data")
                                         logging.info("OK club Data")
                                         new_df = pd.DataFrame(data)
-                                        existing_df = pd.read_csv("new_club_data_test_pro.csv")
+                                        existing_df = pd.read_csv("club_data.csv")
                                         combined_df = pd.concat([existing_df, new_df])
                                         combined_df.drop_duplicates(subset=["Club Name"], inplace=True)
                                         combined_df.dropna(how="all", inplace=True)
-                                        combined_df.to_csv("new_club_data_test_pro.csv", index=False, mode="a", header=not os.path.exists("new_club_data_test_pro.csv"))
+                                        combined_df.to_csv("club_data.csv", index=False, mode="a", header=not os.path.exists("club_data.csv"))
                                         driver.back()
-                                    except:
+                                    except Exception as e3:
+                                        print("Error 3: " + str(e3))
+                                        logging.error("Error 3: " + str(e3))
+                                        
                                         break
                                 # Remove Duplicated Data and nan data
                                 logging.info("Remove Duplicated Data and nan data")
-                                df = pd.read_csv("new_club_data_test_pro.csv")
+                                df = pd.read_csv("club_data.csv")
                                 df = df.dropna(how="all")
                                 df = df.drop_duplicates(subset=["Club Name"]).reset_index(drop=True)
-                                df.to_csv("new_club_data_test_pro.csv", index=False)
-                    except Exception:
+                                df.to_csv("club_data.csv", index=False)
+                    except Exception as e2:
+                        print("Error 2: " + str(e2))
+                        logging.error("Error 2: " + str(e2))
+                        
                         break
-    except Exception:
+    except Exception as e1:
+        print("Error 1: " + str(e1))
+        logging.error("Error 1: " + str(e1))
         break
