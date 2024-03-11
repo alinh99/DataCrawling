@@ -82,6 +82,7 @@ def button_click_to_searching(age, city):
         EC.element_to_be_clickable((By.ID, "enter_postcode"))
     )
     enter_post_code_button.click()
+    time.sleep(1)
     
     post_code_input = WebDriverWait(driver, delay).until(
         EC.element_to_be_clickable((By.ID, "searchBox"))
@@ -120,20 +121,21 @@ website_result = []
 
 club_length = "0"
 
-action = ActionChains(driver)
-
 for city in city_df.index:
     try:
-        current_city = city + 40
-        for current_age in range(5, 26, 5):
+        current_city = city + 15
+        for age in range(30, 56, 5):
+            current_age = age
             print("Current age:", current_age)
             print("Current City:", city_df["name"][current_city])
+            print(f"City Index: {current_city}")
 
             # Wait for the button to be clickable
             button_click_to_searching(current_age, city_df["name"][current_city])
             logging.info("Button Clicked to search done.")
             logging.info(f"Current age: {current_age}")
             logging.info(f"Current City: {city_df["name"][current_city]}")
+            logging.info(f"City Index: {current_city}")
             
             if len(driver.find_elements(By.ID, "football_recommendations_result_wrapper")) > 0:
                 card_divs = WebDriverWait(driver, delay).until(
@@ -159,10 +161,12 @@ for city in city_df.index:
                                     try:
                                         load_more_element = "map_cta_load_more_recommendations"
                                         
-                                        football_club_load_more = WebDriverWait(driver, 10).until(
+                                        football_club_load_more = WebDriverWait(driver, 15).until(
                                             EC.visibility_of_element_located((By.ID, load_more_element))
                                         )
-                                                                                
+                                        
+                                        time.sleep(1)                                 
+                                        
                                         football_club_load_more.click()
 
                                     except Exception:
@@ -189,8 +193,10 @@ for city in city_df.index:
                                             club_provider = f"cta_provider_club_card-{club}"                
                                             
                                             try:
-                                                if len(driver.find_elements(By.ID, club_provider)) > 0:
                                                 
+                                                if len(driver.find_elements(By.ID, club_provider)) > 0:
+                                                    club_name = ""
+                                                    
                                                     club_general_info_button = WebDriverWait(driver, delay).until(
                                                         EC.element_to_be_clickable((By.ID, club_provider))
                                                     )
@@ -200,18 +206,19 @@ for city in city_df.index:
                                                     club_info_button = WebDriverWait(driver, delay).until(
                                                         EC.element_to_be_clickable((By.ID, more_info_id))
                                                     )
+                                                    action = ActionChains(driver)
+                                                    
                                                     action.key_down(Keys.CONTROL).click(club_info_button).key_up(Keys.CONTROL).perform()
                                                     
                                                     if len(driver.window_handles) == 2:
                                                         driver.switch_to.window(driver.window_handles[1])
-                                                    else:
+                                                    elif len(driver.window_handles) == 1:
                                                         time.sleep(2)
                                                         action.key_down(Keys.CONTROL).click(club_info_button).key_up(Keys.CONTROL).perform()
                                                         driver.switch_to.window(driver.window_handles[1])
                                                     
                                                     time.sleep(0.5)
 
-                                                    club_name = ""
                                                     
                                                     if len(driver.find_elements(By.ID, "club_name_heading")) > 0:
                                                         club_name_element = WebDriverWait(driver, delay).until(
