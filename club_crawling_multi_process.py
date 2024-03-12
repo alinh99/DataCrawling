@@ -117,15 +117,19 @@ accredited_to_result = []
 football_type_result = []
 website_result = []
 
-def scrape_city(city_chunks):
+def scrape_city(city_index):
     try:
         chrome_options = webdriver.ChromeOptions()
         # chrome_options.add_argument("--headless")
         chrome_options.add_argument("--start-maximized")
         # chrome_options.add_argument('log-level=3')
         driver = webdriver.Chrome(options=chrome_options)
-        for city_index, city_row in city_chunks.iterrows():
-            city = city_row['name']
+        
+        rows = city_df.loc[city_index]
+        
+        for row in range(len(rows)):
+            city = rows['name'].values[row]
+        
             for age in range(30, 56, 5):
                 button_click_to_searching(driver, age, city)
                 logging.info("Button Clicked to search done.")
@@ -354,16 +358,14 @@ def scrape_city(city_chunks):
 
 
 def main():
-    # Load city data
-    city_df = pd.read_csv("england_city.csv")
-
     # Split the city DataFrame into chunks
-    num_chunks = 12  # Adjust the number of chunks as needed
-    city_chunks = np.array_split(city_df, num_chunks)
+    num_chunks = 10  # Adjust the number of chunks as needed
+    chunk_size = len(city_df) // num_chunks
+    city_indices_chunks = [city_df.index[i:i + chunk_size] for i in range(0, len(city_df), chunk_size)]
 
     # Iterate over each city chunk and start scraping
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_chunks) as executor:
-        executor.map(scrape_city, city_chunks)
+        executor.map(scrape_city, city_indices_chunks)
 
 if __name__ == "__main__":
     main()
