@@ -126,6 +126,13 @@ pip install uvloop
 | **Retry & Error Handling** | Retries failed requests with exponential backoff. |
 | **Logging & tqdm** | Real-time progress tracking. |
 
+## 💡 Future Development Ideas
+- Integrate **PostgreSQL** or **MongoDB** for scalable storage.  
+- Build a **FastAPI backend** for data access and management.  
+- Create a **Streamlit dashboard** for data visualization.  
+- Add **smart deduplication** and **data cleaning** pipelines.  
+- Enable **auto-scheduling** and **cloud deployment** (e.g., AWS Lambda, Docker).
+
 ## 🏁 Author
 **Linh Nguyen Hoang**  
 🎯 Aspiring Python Backend / Data Engineer
