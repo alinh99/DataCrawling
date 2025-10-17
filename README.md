@@ -140,3 +140,5 @@ pip install uvloop
 📧 Contact: *[alinh1803@gmail.com]*  
 ## 📜 License
 MIT License © 2025 Linh Nguyen Hoang
+
+# NOTEs: All README.md contents are built by ChatGPT, the rest are solved by myself.
