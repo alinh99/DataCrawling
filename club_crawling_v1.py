@@ -105,9 +105,10 @@ def button_click_to_searching(age, city):
     next_button_element.click()
     time.sleep(10)
 
-
-logging.basicConfig(filename='crawling_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
-city_df = pd.read_csv("england_city.csv")
+os.makedirs("logs", exist_ok=True)
+os.makedirs("output", exist_ok=True)
+logging.basicConfig(filename='logs/crawling_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+city_df = pd.read_csv("output/england_city.csv")
 
 contact_name_result = []
 team_number_result = []
@@ -339,11 +340,11 @@ for city in city_df.index:
                                         print("OK club Data")
                                         logging.info("OK club Data")
                                         new_df = pd.DataFrame(data)
-                                        existing_df = pd.read_csv("club_data.csv")
+                                        existing_df = pd.read_csv("output/clubs_data.csv")
                                         combined_df = pd.concat([existing_df, new_df])
                                         combined_df.drop_duplicates(subset=["Club Name"], inplace=True)
                                         combined_df.dropna(how="all", inplace=True)
-                                        combined_df.to_csv("club_data.csv", index=False, mode="a", header=not os.path.exists("club_data.csv"))
+                                        combined_df.to_csv("output/clubs_data.csv", index=False, mode="a", header=not os.path.exists("club_data.csv"))
                                         driver.back()
                                     except Exception as e3:
                                         print("Error 3: " + str(e3))
@@ -352,10 +353,10 @@ for city in city_df.index:
                                         break
                                 # Remove Duplicated Data and nan data
                                 logging.info("Remove Duplicated Data and nan data")
-                                df = pd.read_csv("club_data.csv")
+                                df = pd.read_csv("output/clubs_data.csv")
                                 df = df.dropna(how="all")
                                 df = df.drop_duplicates(subset=["Club Name"]).reset_index(drop=True)
-                                df.to_csv("club_data.csv", index=False)
+                                df.to_csv("output/clubs_data.csv", index=False)
                     except Exception as e2:
                         print("Error 2: " + str(e2))
                         logging.error("Error 2: " + str(e2))

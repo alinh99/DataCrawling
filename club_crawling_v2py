@@ -10,11 +10,12 @@ import time
 import os
 import logging
 import concurrent.futures
-import numpy as np
 
 england_club_url = "https://find.englandfootball.com/"
 
 delay = 10000
+os.makedirs("logs", exist_ok=True)
+os.makedirs("output", exist_ok=True)
 
 def button_click_to_searching(driver, age, city):
     # Open the website
@@ -105,8 +106,8 @@ def button_click_to_searching(driver, age, city):
     time.sleep(10)
 
 
-logging.basicConfig(filename='crawling_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
-city_df = pd.read_csv("england_city.csv")
+logging.basicConfig(filename='logs/crawling_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+city_df = pd.read_csv("output/england_city.csv")
 contact_name_result = []
 team_number_result = []
 email_result = []
@@ -343,10 +344,10 @@ def scrape_city(city_index):
                                             break
                                         # Remove Duplicated Data and nan data
                                         logging.info("Remove Duplicated Data and nan data")
-                                        df = pd.read_csv("club_data.csv")
+                                        df = pd.read_csv("output/club_data.csv")
                                         df = df.dropna(how="all")
                                         df = df.drop_duplicates(subset=["Club Name"]).reset_index(drop=True)
-                                        df.to_csv("club_data.csv", index=False)
+                                        df.to_csv("output/club_data.csv", index=False)
                         except Exception as e2:
                             print("Error 2: " + str(e2))
                             logging.error("Error 2: " + str(e2))
