@@ -17,6 +17,7 @@ and ultimately evolved into an **asynchronous API-powered crawler (v3)** — ach
 ---
 
 ## 🧩 Project Structure
+
 football_club_crawling/
 │
 ├── city_crawling.py # Step 1: Crawl city list
