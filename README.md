@@ -29,25 +29,30 @@ football_club_crawling/
 
 ## 🧠 Conceptual Flow
 1. **`city_crawling.py`** — Collects all available cities that contain football clubs and saves them as a CSV or list file.  
-2. **`club_crawling_v1.py`** (Selenium-based) — Opens the browser, loads each city page, and extracts club data (names, age groups, types, etc.).  
-3. **`club_crawling_v2.py`** (Async + API-based) — Uses API endpoints directly with asynchronous HTTP requests to crawl data **in parallel**, while maintaining server stability using **adaptive rate control** and retry logic.
+2. **`club_crawling_v1.py`** (Selenium) — Opens the browser, loads each city page, and extracts club data (names, age groups, types, etc.), but **highly optimized** for better performance and reliability compared to early versions..
+3. **`club_crawling_v2.py`** (Selenium) — Opens the browser, loads each city page, and extracts club data (names, age groups, types, etc.).
+4. **`club_crawling_v3.py`** (Async + API-based) — Uses API endpoints directly with asynchronous HTTP requests to crawl data **in parallel**, while maintaining server stability using **adaptive rate control** and retry logic.
 
 ## 🚀 Setup
 ### 🧰 1. Install Python
 Install Python 3.9 or above: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 ### ⚙️ 2. Install Dependencies
-#### 🧩 For Version 1 (Selenium-based)
+#### 🧩 For Version 1 (Selenium)
 ```
-pip install -r requirements_v1.txt
+pip install -r requirements_v1_v2.txt
 ```
-#### ⚡ For Version 2 (Async + API-based)
+#### 🧩 For Version 2 (Selenium)
+```
+pip install -r requirements_v1_v2.txt
+```
+#### ⚡ For Version 3 (Async + API-based)
 - **On Windows:**
 ```
-pip install -r requirements_v2.txt
+pip install -r requirements_v3.txt
 ```
 - **On Linux/macOS (Recommended for max performance):**
 ```
-pip install -r requirements_v2.txt
+pip install -r requirements_v3.txt
 ```
 ```
 pip install uvloop
@@ -78,19 +83,24 @@ Output: `data/clubs_data.csv`
 ```
 Output: `data/clubs_data.csv`
 
-## 📊 Comparison: Version 1 vs Version 2
-| Feature / Aspect | v1 — Selenium Version | v2 — Async API Version |
-|------------------|------------------------|-------------------------|
-| **Core Technology** | Selenium (browser automation) | Asyncio + httpx (API requests) |
-| **Speed** | 🐢 Slow — one browser per page | ⚡ Extremely fast — async + multiprocessing |
-| **Performance Control** | None | Adaptive limiter + retry with exponential backoff |
-| **System Resource Usage** | High (multiple browsers open) | Low (non-blocking I/O) |
-| **Stability** | Can crash or hang | Stable with caching and automatic retries |
-| **Error Recovery** | Manual restart | Auto resume from cache and pickle checkpoints |
-| **Use Case** | Prototype / small dataset | Large-scale / production-grade crawling |
-| **Compatibility** | Works on all OS | Best on Linux/macOS (uvloop supported) |
+## 🧩 Version Comparison
+
+| Feature / Aspect | v1 — Basic Selenium | v2 — Optimized Selenium (Multi-Browser) | v3 — Async API Request |
+|------------------|---------------------|------------------------------------------|-------------------------|
+| **Core Technology** | Selenium WebDriver | Selenium (parallel multi-browser) | Asyncio + HTTPX (direct API requests) |
+| **Speed** | 🐢 Slow — single browser, sequential | ⚙️ Moderate — faster with parallel threads | ⚡ Extremely fast — async + connection pooling |
+| **Performance Control** | None | Limited concurrency tuning | Adaptive limiter + retry with exponential backoff |
+| **System Resource Usage** | Very high (1 browser per thread) | High (multi-browser consumes more CPU/RAM) | Low (non-blocking I/O, lightweight) |
+| **Stability** | Prone to crashes or freezes | Improved but still limited by browser instability | Highly stable with caching & auto retries |
+| **Error Recovery** | Manual rerun required | Partial recovery via logging | Full auto-resume using cache & pickle checkpoints |
+| **Maintainability** | Simple but inefficient | More complex with multi-thread setup | Clean structure, easier to scale or integrate |
+| **Scalability** | Poor — limited by Selenium overhead | Moderate — improved via concurrency | Excellent — supports distributed crawling |
+| **Use Case** | Prototype / testing phase | Medium-scale crawling | Production-grade large-scale crawling |
+| **Compatibility** | Works on all OS | Works on all OS | Best on Linux/macOS (with `uvloop` optimization) |
+
+
 ## 🧩 Requirements Summary
-### `requirements_v2.txt`
+### `requirements_v3.txt`
 
 *(Optional for Linux/macOS only)*
 ```
