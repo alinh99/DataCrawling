@@ -1,6 +1,0 @@
-pandas
-httpx
-tqdm
-fake-useragent
-python-dotenv
-filelock
