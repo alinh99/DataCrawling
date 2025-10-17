@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
+import os
+
+OUTPUT_FOLDER_NAME = "output"
+os.makedirs(OUTPUT_FOLDER_NAME, exist_ok=True)
 
 def get_data(url):
     url_request = requests.get(url)
@@ -30,4 +34,4 @@ for city_name in city_names:
 
 df = pd.DataFrame(cities)
 df.drop_duplicates(inplace=True)
-df.to_csv("england_city.csv", mode='a', header=False, index=False)
+df.to_csv(f"{OUTPUT_FOLDER_NAME}/england_city.csv", mode='a', header=True, index=False)

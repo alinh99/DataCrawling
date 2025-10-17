@@ -65,14 +65,22 @@ class AdaptiveLimiter:
             self.success_count = 0
             logger.info(f"[AdaptiveLimiter] Server stable, increased concurrency to {self.concurrent}")
 
+LOGS_FOLDER_NAME = "logs"
+OUTPUT_FOLDER_NAME = "output"
+STORAGE_FOLDER_NAME = "storage"
+
+os.makedirs(OUTPUT_FOLDER_NAME, exist_ok=True)
+os.makedirs(STORAGE_FOLDER_NAME, exist_ok=True)
+os.makedirs(LOGS_FOLDER_NAME, exist_ok=True)
+
 # ---------------- CONFIG ----------------
-INPUT_FILE = "england_city.csv"
+INPUT_FILE = f"{OUTPUT_FOLDER_NAME}/england_city.csv"
 CITY_COLUMN = "name"
-CSV_FILE = "clubs_data.csv"            # final CSV output (has City,PlayWith,Age,Club Name,...)
-CACHE_FILE = "club_cache.pkl"
-PROCESSED_FILE = "processed_combos.pkl"  # set of (city_play_age) tuples
-LOG_FILE = "new_scraper_optimized.log"
-CSV_LOCK_FILE = CSV_FILE + ".lock"
+CSV_FILE = f"{OUTPUT_FOLDER_NAME}/clubs_data.csv"             # final CSV output (has City,PlayWith,Age,Club Name,...)
+CACHE_FILE = f"{STORAGE_FOLDER_NAME}/club_cache.pkl"
+PROCESSED_FILE = f"{STORAGE_FOLDER_NAME}/processed_combos.pkl" # set of (city_play_age) tuples
+LOG_FILE = f"{LOGS_FOLDER_NAME}/new_scraper_optimized.log"
+CSV_LOCK_FILE = os.path.join(STORAGE_FOLDER_NAME, "clubs_data.lock")
 
 MAX_PROCESSES = int(os.getenv("MAX_PROCESSES", 5))
 MAX_CONCURRENT_REQUESTS = int(os.getenv("MAX_CONCURRENT_REQUESTS", 50))  # per-process
