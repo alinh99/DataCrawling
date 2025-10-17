@@ -32,8 +32,8 @@ FootballClubDataCrawler/
 │
 ├── .env # Environment variables (API base URL, output path, etc.)
 ├── logs/ # Folder for runtime logs
-├── data/ # Folder for city lists, output CSV files
-├── storage/ # Folder for cache files (pickle, checkpoints)
+├── output/ # Folder for city lists, output CSV files
+├── storage/ # Folder for cache files (pickle, checkpoints) - only existed in v3
 └── README.md # Project documentation
 `````
 ## 🧠 Conceptual Flow
@@ -82,15 +82,15 @@ BATCH_SAVE_SIZE = 200
 RATE_LIMIT_SLEEP = 60
 ```
 
-### 🧩 Step 2A — Crawl Clubs Using Selenium (v1)
+### 🧩 Step 2A — Crawl Clubs Using Selenium (v1/v2)
 ```
 python city_crawling.py
 ```
-### 🧩 Step 2A — Crawl Clubs Using Selenium (v1)
+### 🧩 Step 2A — Crawl Clubs Using Selenium (v1/v2)
 ```
-Output: `data/clubs_data.csv`
+Output: `output/clubs_data.csv`
 ```
-Output: `data/clubs_data.csv`
+Output: `output/clubs_data.csv`
 
 ## 🧩 Version Comparison
 
