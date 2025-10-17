@@ -17,7 +17,7 @@ and ultimately evolved into an **asynchronous API-powered crawler (v3)** — ach
 ---
 
 ## 🧩 Project Structure
-
+`````
 football_club_crawling/
 │
 ├── city_crawling.py # Step 1: Crawl city list
@@ -35,7 +35,7 @@ football_club_crawling/
 ├── data/ # Folder for city lists, output CSV files
 ├── storage/ # Folder for cache files (pickle, checkpoints)
 └── README.md # Project documentation
-
+`````
 ## 🧠 Conceptual Flow
 1. **`city_crawling.py`** — Collects all available cities that contain football clubs and saves them as a CSV or list file.  
 2. **`club_crawling_v1.py`** (Selenium) — Opens the browser, loads each city page, and extracts club data (names, age groups, types, etc.), but **highly optimized** for better performance and reliability compared to early versions..
