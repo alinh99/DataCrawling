@@ -105,7 +105,7 @@ Output: `output/clubs_data.csv`
 | **Maintainability** | Simple but inefficient | More complex with multi-thread setup | Clean structure, easier to scale or integrate |
 | **Scalability** | Poor — limited by Selenium overhead | Moderate — improved via concurrency | Excellent — supports distributed crawling |
 | **Use Case** | Prototype / testing phase | Medium-scale crawling | Production-grade large-scale crawling |
-| **Compatibility** | Works on all OS | Works on all OS | Best on Linux/macOS (with `uvloop` optimization) |
+| **Compatibility** | Works on all OS | Works on all OS |  Works on all OS (but Best on Linux/macOS with `uvloop` optimization) |
 
 
 ## 🧩 Requirements Summary
