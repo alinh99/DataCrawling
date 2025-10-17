@@ -141,4 +141,6 @@ pip install uvloop
 ## 📜 License
 MIT License © 2025 Linh Nguyen Hoang
 
-# NOTEs: All README.md contents are built by ChatGPT, the rest are solved by myself.
+---
+
+> **Note:** This README.md was drafted with assistance from ChatGPT for clarity and formatting. The code and ideas are original, with minimal guidance from ChatGPT for clean structure.
