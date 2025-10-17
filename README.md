@@ -1,30 +1,38 @@
 # ⚽ Football Club Data Crawler (Python)
 ## 📖 Overview
-This project is a **data crawling system** designed to collect football club data from a public website by city. It began as a **Selenium-based web crawler (v1)** and later evolved into a **fully optimized asynchronous API crawler (v2)** for higher performance, scalability, and stability.
+This project is a **data crawling system** that collects **football club information** from **public web sources** by city.  
+It started as a **basic Selenium-based crawler (v1)**, was enhanced with **multi-browser parallelism** for better efficiency (**v2**),  
+and ultimately evolved into an **asynchronous API-powered crawler (v3)** — achieving **high performance ⚡**, **scalability 🌍**, and **production-level stability 🧩**.
+
 ## ⚙️ Technologies
 - **Python 3.9+**
-- **Selenium (v1)**
-- **Asyncio + httpx (v2)**
+- **Selenium (v1)** — Browser automation for crawling web content
+- **Selenium + Threading (v2)** — Multi-browser concurrent crawling for higher throughput
+- **Asyncio + httpx (v3)** — Fully asynchronous API request–based crawler
 - **Multiprocessing + AsyncIO hybrid execution**
-- **Adaptive concurrency limiter**
-- **Pickle-based caching & checkpoint recovery**
-- **Retry logic & backoff strategy**
-- **Logging + tqdm progress bar**
+- **Adaptive concurrency limiter** to balance performance and server stability
+- **Pickle-based caching & checkpoint recovery** for safe resume after interruptions
+- **Retry logic & exponential backoff** for network stability
+- **Logging system + tqdm progress bar** for real-time monitoring
+---
 
 ## 🧩 Project Structure
 football_club_crawling/
 │
 ├── city_crawling.py # Step 1: Crawl city list
-├── club_crawling_v1.py # Step 2 (Version 1): Selenium crawler
-├── club_crawling_v2.py # Step 2 (Version 2): Async + API crawler
 │
-├── requirements_v1.txt # Dependencies for v1
-├── requirements_v2.txt # Dependencies for v2
+├── club_crawling_v1.py # Step 2 (Version 1): Basic Selenium crawler
+├── club_crawling_v2.py # Step 2 (Version 2): Optimized Selenium + multi-browser
+├── club_crawling_v3.py # Step 2 (Version 3): Async + API-based high-performance crawler
+│
+├── requirements_v1_v2.txt # Dependencies for v1
+├── requirements_v1_v2.txt # Dependencies for v2 (Selenium optimized)
+├── requirements_v3.txt # Dependencies for v3 (Async API version)
 │
 ├── .env # Environment variables (API base URL, output path, etc.)
 ├── logs/ # Folder for runtime logs
-├── data/ # Folder for city lists, output CSV
-├── storage/ # Folder for cache files (mostly pkl files)
+├── data/ # Folder for city lists, output CSV files
+├── storage/ # Folder for cache files (pickle, checkpoints)
 └── README.md # Project documentation
 
 ## 🧠 Conceptual Flow
