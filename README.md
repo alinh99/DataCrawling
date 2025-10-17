@@ -109,8 +109,8 @@ pip install uvloop
 
 ## 🏁 Author
 **Linh Nguyen Hoang**  
-🎯 Aspiring Python Backend / Data Engineer  
+🎯 Aspiring Python Backend / Data Engineer
 🌍 Goal: Build a high-performance asynchronous crawler to collect and process structured football club data efficiently.
 📧 Contact: *[alinh1803@gmail.com]*  
 ## 📜 License
-MIT License © 2025 Hoang Linh Nguyen
+MIT License © 2025 Linh Nguyen Hoang
